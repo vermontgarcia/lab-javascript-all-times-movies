@@ -118,8 +118,10 @@ function bestYearAvg(movies){
     var topRateYears = ratesOrdered.filter(function(n){
         return n.rateAverage == topAvg;
     });
-    topRateYearsOrdered = topRateYears.sort(function(a,b){
+    var topRateYearsOrdered = topRateYears.sort(function(a,b){
         return a.year - b.year;
     });
     return 'The best year was ' + topRateYearsOrdered[0].year + ' with an average rate of ' + topRateYearsOrdered[0].rateAverage;
 }
+
+bestYearAvg(movies);
