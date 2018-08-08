@@ -3,18 +3,21 @@
 
 function turnHoursToMinutes (movies){
     var moviesCopy = movies.map(function(n){
-        var hour = n.duration.match(/\d(h)/g);
-        var h1 = 0;
-        if (hour != null){
-            h1 = hour[0].replace('h', '');
-        }
-        var min = n.duration.match(/\d*(min)/g);
         var m1=0;
-        if (min !=null){
-            m1 = min[0].replace('min', '');
+        var h1 = 0;
+        if (typeof n.duration === 'number') m1 = n.duration;
+        if (typeof n.duration === 'string') {
+            var hour = n.duration.match(/\d(h)/g);
+            if (hour != null){
+                h1 = hour[0].replace('h', '');
+            }
+            var min = n.duration.match(/\d*(min)/g);            
+            if (min !=null){
+                m1 = min[0].replace('min', '');
+            }
+            var minutes = (parseInt(h1) * 60) + parseInt(m1);
+            return Object.assign({}, n, {duration:minutes});
         }
-        var minutes = (parseInt(h1) * 60) + parseInt(m1);
-        return Object.assign({}, n, {duration:minutes}); 
       });
       return moviesCopy;
 }
@@ -44,6 +47,7 @@ function dramaMoviesRate(movies){
 // Order by time duration, in growing order
 
 function orderByDuration(movies){
+    var newMovies = turnHoursToMinutes(movies);
     var moviesDurationTitleOrdered = movies.sort(function(a,b){
             if (a.title > b.title) return 1;
             if (a.title < b.title) return -1;
